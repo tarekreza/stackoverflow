@@ -168,9 +168,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <label for="category" class="col-sm-3 col-form-label">Filter by category</label>
                                 <div class="col-sm-6">
                                     <select name="category_id" class="form-control ">
-                                        <option selected>All category</option>
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            <option {{ old('category_id',$selectedCategory)==$category->id ? 'selected' : '' }} value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('category')

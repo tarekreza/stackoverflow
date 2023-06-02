@@ -1,10 +1,13 @@
 <?php
 
+use App\Models\Category;
+use App\Models\Question;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\QuestionController;
-use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +21,14 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $data['questions'] = Question::all();
+    $data["categories"] = Category::all();
+    return view('welcome', $data);
 });
+
+Route::get('question-show/{id}', [HomeController::class, 'questionShow'])->name('questionShow');
+Route::post('filter-by-category', [HomeController::class, 'filterByCategory'])->name('filterByCategory');
+
 
 
 Route::get('sign-in', [AuthController::class, 'signin'])->name('signin');
@@ -32,7 +41,7 @@ Route::post('sign-out', [AuthController::class, 'signout'])->name('signout');
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         $data['title'] = "Dashboard";
-        return view('layouts.app',$data);
+        return view('layouts.app', $data);
     });
     Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);
