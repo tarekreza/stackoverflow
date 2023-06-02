@@ -104,10 +104,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </ul>
 
                     <!-- SEARCH FORM -->
-                    <form class="form-inline ml-0 ml-md-3">
+                    <form action="{{ route('search') }}" method="POST" class="form-inline ml-0 ml-md-3">
+                        @csrf
                         <div class="input-group input-group-sm">
-                            <input class="form-control form-control-navbar" type="search" placeholder="Search"
-                                aria-label="Search">
+                            <input class="form-control form-control-navbar" name="query" type="search"
+                                placeholder="Search" aria-label="Search">
                             <div class="input-group-append">
                                 <button class="btn btn-navbar" type="submit">
                                     <i class="fas fa-search"></i>
@@ -162,24 +163,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="row">
 
                         <div class="col-sm-6">
-                        <form action="{{ route('filterByCategory') }}" method="post" class="form-horizontal col-sm-12">
-                            @csrf
-                            <div class="form-group row">
-                                <label for="category" class="col-sm-3 col-form-label">Filter by category</label>
-                                <div class="col-sm-6">
-                                    <select name="category_id" class="form-control ">
-                                        @foreach ($categories as $category)
-                                            <option {{ old('category_id',$selectedCategory)==$category->id ? 'selected' : '' }} value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('category')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
+                            <form action="{{ route('filterByCategory') }}" method="POST"
+                                class="form-horizontal col-sm-12">
+                                @csrf
+                                <div class="form-group row">
+                                    <label for="category" class="col-sm-3 col-form-label">Filter by category</label>
+                                    <div class="col-sm-6">
+                                        <select name="category_id" class="form-control ">
+                                            @foreach ($categories as $category)
+                                                <option
+                                                    {{ old('category_id', isset($selectedCategory) ? $selectedCategory : '') == $category->id ? 'selected' : '' }}
+                                                    value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('category_id')
+                                            <p class="text-danger">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    <button type="submit" class="btn btn-primary ">Submit</button>
                                 </div>
-                                <button type="submit" class="btn btn-primary ">Submit</button>
-                            </div>
-                        </form>
-                    </div>
+                            </form>
+                        </div>
                         <div class="col-sm-3">
                         </div>
                         <div class="col-sm-2 ml-auto">
@@ -199,7 +203,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         @empty
                             <div class="card col-12">
                                 <div class="card-body">
-                                    <h5 class="card-title">There are no questions right now.</h5>
+                                    <h5 class="card-title">There are no questions in this category.</h5>
                                 </div>
                             </div>
                         @endforelse

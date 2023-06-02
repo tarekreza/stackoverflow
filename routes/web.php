@@ -28,6 +28,7 @@ Route::get('/', function () {
 
 Route::get('question-show/{id}', [HomeController::class, 'questionShow'])->name('questionShow');
 Route::post('filter-by-category', [HomeController::class, 'filterByCategory'])->name('filterByCategory');
+Route::post('search', [HomeController::class, 'search'])->name('search');
 
 
 

@@ -14,11 +14,24 @@ class HomeController extends Controller
         return view('question_show',$data);
     }
     public function filterByCategory(Request $request)
-    {
-        $data['questions'] = Question::where('category_id', $request->category_id)->get();
+    {   
+        // $category_id = $request->validate([
+        //     'category_id' => 'exists:categories,id'
+        // ]);
+        $category_id = $request['category_id'];
+        $data['questions'] = Question::where('category_id', $category_id)->get();
         $data["categories"] = Category::all();
-        $data["selectedCategory"] = $request->category_id;
+        $data["selectedCategory"] = $category_id;
 
         return view('filter_by_category', $data);
+    }
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $data['questions'] = Question::where('title', 'LIKE', "%$query%")->get();
+        $data["categories"] = Category::all();
+
+        return view('filter_by_category', $data);
+
     }
 }
