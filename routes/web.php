@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnswerController;
 use App\Models\Category;
 use App\Models\Question;
 use Illuminate\Support\Facades\Route;
@@ -7,6 +8,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 
 /*
@@ -24,7 +27,7 @@ Route::get('/', function () {
     $data['questions'] = Question::all();
     $data["categories"] = Category::all();
     return view('welcome', $data);
-});
+})->name('home');
 
 Route::get('question-show/{id}', [HomeController::class, 'questionShow'])->name('questionShow');
 Route::post('filter-by-category', [HomeController::class, 'filterByCategory'])->name('filterByCategory');
@@ -40,11 +43,16 @@ Route::post('sign-out', [AuthController::class, 'signout'])->name('signout');
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        $data['title'] = "Dashboard";
-        return view('layouts.app', $data);
-    });
+    
+    Route::get('dashboard', DashboardController::class)->name('dashboard');
+    
     Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('questions', QuestionController::class);
+
+    Route::get('answers/create/{id}', [AnswerController::class,'create'])->name('answers.create');
+    Route::post('answers/{id}', [AnswerController::class,'store'])->name('answers.store');
+
+    Route::get('profile', [ProfileController::class,'index'])->name('profile');
+    Route::put('profile/update', [ProfileController::class,'update'])->name('profile.update');
 });

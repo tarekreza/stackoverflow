@@ -10,7 +10,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <title>{{ env('APP_NAME') }}</title>
+    <title>{{ env('APP_NAME') }}| reply</title>
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
@@ -59,7 +59,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <li class="nav-item">
                             <a href="{{ route('home') }}" class="nav-link">Home</a>
                         </li>
-                        
+
                     </ul>
 
                     <!-- SEARCH FORM -->
@@ -77,28 +77,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </form>
                 </div>
 
+
                 <!-- Right navbar links -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    @if (Route::has('signin'))
-                        @auth
-                            <li class="nav-item mx-2">
-                                <form action="{{ route('signout') }}" method="post">
-                                    @csrf
-                                    <input class="btn btn-block btn-danger " type="submit" value="Sign out">
-                                </form>
-                            </li>
-                        @else
-                            <li class="nav-item mx-2">
-                                <a href="{{ route('signin') }}" class="btn btn-block btn-default ">Sign in</a>
-                            </li>
 
-                            @if (Route::has('signup'))
-                                <li class="nav-item">
-                                    <a href="{{ route('signup') }}" class="btn btn-block btn-primary">Sign up</a>
-                                </li>
-                            @endif
-                        @endauth
-                    @endif
+                    <li class="nav-item mx-2">
+                        <form action="{{ route('signout') }}" method="post">
+                            @csrf
+                            <input class="btn btn-block btn-danger " type="submit" value="Sign out">
+                        </form>
+                    </li>
+
                 </ul>
             </div>
         </nav>
@@ -106,9 +95,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
+           
             <!-- Content Header (Page header) -->
             <div class="content-header">
+                
                 <div class="container">
+                    @if (session()->has('SUCCESS_MESSAGE'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('SUCCESS_MESSAGE') }}
+                    </div>
+                @endif
+                @if (session()->has('ERROR_MESSAGE'))
+                    <div class="alert alert-danger" role="alert">
+                        {{ session('ERROR_MESSAGE') }}
+                    </div>
+                @endif
                     <div class="row mb-2">
 
                     </div><!-- /.row -->
@@ -121,80 +122,64 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container">
                     <div class="row">
 
-                        <div class="col-sm-6">
-                            <form action="{{ route('filterByCategory') }}" method="POST"
-                                class="form-horizontal col-sm-12">
+                        <div class="card col-12">
+                            <div class="card-body">
+                                <a style="color:black" href="{{ route('questionShow', $question->id) }}">
+                                    <h3>{{ $question->title }}</h3>
+                                </a>
+
+                              
+                                <p class="card-text">{{ $question->description }}</p>
+                            </div>
+                        </div>
+                        <div class="card col-12">
+                            <form action="{{ route('answers.store',$question->id) }}" method="POST">
                                 @csrf
-                                <div class="form-group row">
-                                    <label for="category" class="col-sm-3 col-form-label">Filter by category</label>
-                                    <div class="col-sm-6">
-                                        <select name="category_id" class="form-control ">
-                                            @foreach ($categories as $category)
-                                                <option
-                                                    {{ old('category_id', isset($selectedCategory) ? $selectedCategory : '') == $category->id ? 'selected' : '' }}
-                                                    value="{{ $category->id }}">{{ $category->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('category_id')
-                                            <p class="text-danger">{{ $message }}</p>
-                                        @enderror
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Your answer</label>
+                                        <textarea class="form-control" name="answer" required rows="3" placeholder="Enter your answer here..."></textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-primary ">Submit</button>
+                                    @error('answer')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>
                             </form>
                         </div>
-                        <div class="col-sm-3">
-                        </div>
-                        <div class="col-sm-2 ml-auto">
-                            <a href="{{ route('questions.create') }}" class="btn btn-block btn-primary float-end">Ask
-                                Question</a>
-                        </div>
-                        @forelse ($questions as $question)
-                            <div class="card col-12">
-                                <div class="card-body">
-                                    <a style="color:black" href="{{ route('questionShow', $question->id) }}">
-                                        <p class="card-text">{{ Str::words($question->title, 20, '...') }}</p>
-                                    </a>
-
-                                    <a href="{{ route('answers.create',$question->id) }}" class="card-link">Reply</a>
-                                </div>
-                            </div>
-                        @empty
-                            <div class="card col-12">
-                                <div class="card-body">
-                                    <h5 class="card-title">There are no questions in this category.</h5>
-                                </div>
-                            </div>
-                        @endforelse
-
-
-
                     </div>
-                    <!-- /.row -->
-                </div><!-- /.container-fluid -->
-            </div>
-            <!-- /.content -->
+
+
+                </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
         </div>
-        <!-- /.content-wrapper -->
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
 
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-            <div class="p-3">
-                <h5>Title</h5>
-                <p>Sidebar content</p>
-            </div>
-        </aside>
-        <!-- /.control-sidebar -->
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+        <div class="p-3">
+            <h5>Title</h5>
+            <p>Sidebar content</p>
+        </div>
+    </aside>
+    <!-- /.control-sidebar -->
 
-        <!-- Main Footer -->
-        <footer class="main-footer">
-            <strong>Copyright &copy; 2023 <a target="_blank" href="https://tarekreza.com/">Tarek Reza</a>.</strong>
-            All rights reserved.
-            <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> 1.0.0
-            </div>
-        </footer>
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <!-- To the right -->
+        <div class="float-right d-none d-sm-inline">
+            Anything you want
+        </div>
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
+        reserved.
+    </footer>
     </div>
     <!-- ./wrapper -->
 

@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class SignupRequest extends FormRequest
 {
@@ -28,13 +29,13 @@ class SignupRequest extends FormRequest
             'username' => [
                 'required',
                 Rule::unique('users')
-                    ->ignore($this->route('user'))
+                    ->ignore(Auth::user()->id)
             ],
             'email' => [
                 'required',
                 'email',
                 Rule::unique('users')
-                    ->ignore($this->route('user'))
+                    ->ignore(Auth::user()->id)
             ],
             // the password will be validated in the controller for put request.
             'password' => $this->isMethod('POST') ? ['required', 'confirmed', 'min:8'] : [],

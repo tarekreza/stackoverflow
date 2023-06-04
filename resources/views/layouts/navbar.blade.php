@@ -6,22 +6,19 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="index3.html" class="nav-link">Home</a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Contact</a>
+            <a href="{{ route('home') }}" class="nav-link">Home</a>
         </li>
     </ul>
 
-    <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
-        <div class="input-group input-group-sm">
-            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-            <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </div>
-    </form>
+
+    <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+
+                <li class="nav-item mx-2">
+                    <form action="{{ route('signout') }}" method="post">
+                        @csrf
+                        <input class="btn btn-block btn-danger " type="submit" value="Sign out">
+                    </form>
+                </li>
+
+    </ul>
 </nav>

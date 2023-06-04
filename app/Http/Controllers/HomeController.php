@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Question;
 use Illuminate\Http\Request;
@@ -10,11 +11,12 @@ class HomeController extends Controller
 {
     public function questionShow($id)
     {
-    $data['question'] = Question::find($id);
-        return view('question_show',$data);
+        $data['question'] = Question::find($id);
+        $data['answers'] = Answer::where('question_id', $id)->get();
+        return view('question_show', $data);
     }
     public function filterByCategory(Request $request)
-    {   
+    {
         // $category_id = $request->validate([
         //     'category_id' => 'exists:categories,id'
         // ]);
@@ -32,6 +34,5 @@ class HomeController extends Controller
         $data["categories"] = Category::all();
 
         return view('filter_by_category', $data);
-
     }
 }

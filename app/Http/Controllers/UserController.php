@@ -64,6 +64,7 @@ class UserController extends Controller
     public function update(SignupRequest $request, string $id)
     {
         $user = User::find($id);
+
         // receive all validated data except password (password is not validated yet)
         $validatedData = $request->validated();
 
