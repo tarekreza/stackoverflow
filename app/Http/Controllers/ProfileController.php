@@ -25,7 +25,7 @@ class ProfileController extends Controller
         $validatedData = $request->validated();
 
         // validate password and update database
-        if ($validatedData['password'] != null) {
+        if ($request['password'] != null) {
             $validated = $request->validate([
                 'password' => ['confirmed', 'min:8'],
             ]);
@@ -35,7 +35,6 @@ class ProfileController extends Controller
             }
             return redirect()->back()->withInput()->with('ERROR_MESSAGE', 'Something went wrong! try again later.');
         } else {
-            unset($validatedData['password']);
             if ($user->update($validatedData)) {
                 return redirect()->back()->with('SUCCESS_MESSAGE', 'User updated successfully');
             }

@@ -23,23 +23,43 @@ class SignupRequest extends FormRequest
      */
     public function rules(): array
     { 
-        return [
-            'first_name' => ['required', 'string'],
-            'last_name' => ['required', 'string'],
-            'username' => [
-                'required',
-                Rule::unique('users')
-                    ->ignore(Auth::user()->id)
-            ],
-            'email' => [
-                'required',
-                'email',
-                Rule::unique('users')
-                    ->ignore(Auth::user()->id)
-            ],
-            // the password will be validated in the controller for put request.
-            'password' => $this->isMethod('POST') ? ['required', 'confirmed', 'min:8'] : [],
-        ];
+        if ($this->isMethod('POST')) {
+            return [
+                'first_name' => ['required', 'string'],
+                'last_name' => ['required', 'string'],
+                'username' => [
+                    'required',
+                    Rule::unique('users')
+                        ->ignore($this->route('user'))
+                ],
+                'email' => [
+                    'required',
+                    'email',
+                    Rule::unique('users')
+                        ->ignore($this->route('user'))
+                ],
+                // the password will be validated in the controller for put request.
+                'password' => ['required', 'confirmed', 'min:8'],
+            ];
+        }
+        else{
+            return [
+                'first_name' => ['required', 'string'],
+                'last_name' => ['required', 'string'],
+                'username' => [
+                    'required',
+                    Rule::unique('users')
+                        ->ignore(Auth::user()->id)
+                ],
+                'email' => [
+                    'required',
+                    'email',
+                    Rule::unique('users')
+                        ->ignore(Auth::user()->id)
+                ],
+            ];
+        }
+        
     }
     public function messages(): array
     {

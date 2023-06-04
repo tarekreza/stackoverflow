@@ -23,11 +23,7 @@ use App\Http\Controllers\QuestionController;
 |
 */
 
-Route::get('/', function () {
-    $data['questions'] = Question::all();
-    $data["categories"] = Category::all();
-    return view('welcome', $data);
-})->name('home');
+Route::get('/',[HomeController::class, 'index'])->name('home');
 
 Route::get('question-show/{id}', [HomeController::class, 'questionShow'])->name('questionShow');
 Route::post('filter-by-category', [HomeController::class, 'filterByCategory'])->name('filterByCategory');
