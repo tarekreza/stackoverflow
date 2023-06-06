@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryRequest extends FormRequest
 {
@@ -12,7 +13,12 @@ class CategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        if (Auth::user()->is_admin == 1) {
+            return true;
+        }
+        else
+        return false;
+
     }
 
     /**

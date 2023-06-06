@@ -1,12 +1,11 @@
-@extends('layouts.home')
+@extends('layouts.app')
 
-
-@section('home.content')
+@section('content')
 <div class="row">
 
     <div class="card col-12">
         <div class="card-body">
-            <a style="color:black" href="{{ route('questionShow', $question->id) }}">
+            <a style="color:black" href="{{ route('user.questions.show', $question->id) }}">
                 <h3>{{ $question->title }}</h3>
             </a>
 
@@ -15,12 +14,12 @@
         </div>
     </div>
     <div class="card col-12">
-        <form action="{{ route('answers.store',$question->id) }}" method="POST">
+        <form action="{{ route('reply.store',$question->id) }}" method="POST">
             @csrf
             <div class="card-body">
                 <div class="form-group">
-                    <label>Your answer</label>
-                    <textarea class="form-control" name="answer" required rows="3" placeholder="Enter your answer here..."></textarea>
+                    <label>Reply</label>
+                    <textarea class="form-control" name="answer" required rows="3" placeholder="Enter your reply here..."></textarea>
                 </div>
                 @error('answer')
         <p class="text-danger">{{ $message }}</p>

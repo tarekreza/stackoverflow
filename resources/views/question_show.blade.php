@@ -122,7 +122,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <div class="card-body clearfix">
                                     <blockquote class="{{ $answer->is_correct==1 ? 'quote-success' : 'quote-secondary' }}">
                                         <p>{{ $answer->answer }}</p>
-                                        <small>Someone famous in</small>
+                                        <small> {{ $answer->user->username }}</small>
                                     </blockquote>
                                 </div>
                             </div>

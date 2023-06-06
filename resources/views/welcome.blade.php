@@ -26,7 +26,7 @@
         <div class="col-sm-3">
         </div>
         <div class="col-sm-2 ml-auto">
-            <a href="{{ route('questions.create') }}" class="btn btn-block btn-primary float-end">Ask
+            <a href="{{ route('user.questions.create') }}" class="btn btn-block btn-primary float-end">Ask
                 Question</a>
         </div>
         @forelse ($questions as $question)
@@ -35,7 +35,8 @@
                     <a style="color:black" href="{{ route('questionShow', $question->id) }}">
                         <p class="card-text">{{ Str::words($question->title, 20, '...') }}</p>
                     </a>
-
+                    <br>
+                    <p><small>category : {{ $question->category->name }}</small></p>
                     <a href="{{ route('answers.create', $question->id) }}" class="card-link">Reply</a>
                 </div>
             </div>
@@ -47,7 +48,7 @@
             </div>
         @endforelse
 
-
+        {{ $questions->links() }}
 
     </div>
     <!-- /.row -->

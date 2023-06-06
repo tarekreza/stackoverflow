@@ -20,8 +20,12 @@ class AuthController extends Controller
     {
         if (Auth::attempt($request->validated())) {
             $request->session()->regenerate();
-
-            return redirect()->intended('dashboard');
+            if (Auth::user()->is_admin == 1) {
+                return redirect()->route('dashboard');
+            }
+            else{
+                return redirect()->route('profile');
+            }
         }
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',

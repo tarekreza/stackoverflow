@@ -19,12 +19,12 @@
                         <li class="nav-item">
                             <a href="{{ route('home') }}" class="nav-link">Home</a>
                         </li>
+                        @auth
                         @if (auth()->user()->is_admin ==1 )
                         <li class="nav-item">
                             <a href="{{ route('dashboard') }}" class="nav-link">Dashboard</a>
                         </li>
                         @endif
-                        @auth
                         @if (auth()->user()->is_admin ==0 )
                         <li class="nav-item">
                             <a href="{{ route('profile') }}" class="nav-link">Profile</a>

@@ -11,7 +11,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $data['questions'] = Question::all();
+        $data['questions'] = Question::latest()->simplePaginate(20);
         $data["categories"] = Category::all();
         return view('welcome', $data);
     }
@@ -23,10 +23,10 @@ class HomeController extends Controller
     }
     public function filterByCategory(Request $request)
     {
-        // $category_id = $request->validate([
-        //     'category_id' => 'exists:categories,id'
-        // ]);
-        $category_id = $request['category_id'];
+        $category_id = $request->validate([
+            'category_id' => 'exists:categories,id'
+        ]);
+        // $category_id = $request['category_id'];
         $data['questions'] = Question::where('category_id', $category_id)->get();
         $data["categories"] = Category::all();
         $data["selectedCategory"] = $category_id;
@@ -39,6 +39,6 @@ class HomeController extends Controller
         $data['questions'] = Question::where('title', 'LIKE', "%$query%")->get();
         $data["categories"] = Category::all();
 
-        return view('filter_by_category', $data);
+        return view('search_result', $data);
     }
 }

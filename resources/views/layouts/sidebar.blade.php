@@ -24,95 +24,123 @@
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-               @if (auth()->user()->is_admin ==1 )
                <li class="nav-item">
-                <a href="{{ route('dashboard') }}" class="nav-link">
-                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                <a href="{{ route('profile') }}" class="nav-link">
+                  <i class="nav-icon fas fa-user"></i>
                   <p>
-                    Dashboard
+                    Profile
                   </p>
                 </a>
               </li>
+              @if (auth()->user()->is_admin == 0)
 
               <li class="nav-item has-treeview">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-users"></i>
-                    <p>
-                        Manage Users
-                        <i class="fas fa-angle-right right"></i>
-                        {{-- <span class="badge badge-info right">6</span> --}}
-                    </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="{{ route('users.index') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>All user</p>
-                        </a>
-                        <a href="{{ route('users.create') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Create user</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="nav-item has-treeview">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon fa fa-cubes"></i>
-                    <p>
-                        Manage Category
-                        <i class="fas fa-angle-right right"></i>
-                        
-                        <ion-icon name="duplicate-outline"></ion-icon>
-                        {{-- <span class="badge badge-info right">6</span> --}}
-                    </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="{{ route('categories.index') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>All category</p>
-                        </a>
-                        <a href="{{ route('categories.create') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Create category</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
                     <i class="nav-icon fa fa-cubes"></i>
                     <p>
                         Manage Questions
                         <i class="fas fa-angle-right right"></i>
-                        
+
                         <ion-icon name="duplicate-outline"></ion-icon>
                         {{-- <span class="badge badge-info right">6</span> --}}
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="{{ route('questions.index') }}" class="nav-link">
+                        <a href="{{ route('user.questions.index') }}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>All questions</p>
                         </a>
-                        <a href="{{ route('questions.create') }}" class="nav-link">
+                        <a href="{{ route('user.questions.create') }}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Ask question</p>
                         </a>
                     </li>
                 </ul>
             </li>
-@endif
-<li class="nav-item">
-    <a href="{{ route('profile') }}" class="nav-link">
-      <i class="nav-icon fas fa-user"></i>
-      <p>
-        Profile
-      </p>
-    </a>
-  </li>
+            @endif
+                @if (auth()->user()->is_admin == 1)
+                    <li class="nav-item">
+                        <a href="{{ route('dashboard') }}" class="nav-link">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Dashboard
+                            </p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>
+                                Manage Users
+                                <i class="fas fa-angle-right right"></i>
+                                {{-- <span class="badge badge-info right">6</span> --}}
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('users.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>All user</p>
+                                </a>
+                                <a href="{{ route('users.create') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Create user</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-cubes"></i>
+                            <p>
+                                Manage Category
+                                <i class="fas fa-angle-right right"></i>
+
+                                <ion-icon name="duplicate-outline"></ion-icon>
+                                {{-- <span class="badge badge-info right">6</span> --}}
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('categories.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>All category</p>
+                                </a>
+                                <a href="{{ route('categories.create') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Create category</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-cubes"></i>
+                            <p>
+                                Manage Questions
+                                <i class="fas fa-angle-right right"></i>
+
+                                <ion-icon name="duplicate-outline"></ion-icon>
+                                {{-- <span class="badge badge-info right">6</span> --}}
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('questions.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>All questions</p>
+                                </a>
+                                <a href="{{ route('questions.create') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Ask question</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+
 
 
 

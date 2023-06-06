@@ -22,7 +22,6 @@
                                 <th>Title</th>
                                 <th>Description</th>
                                 <th>Category</th>
-                                <th>Author</th>
                                 <th>Created at</th>
                                 <th>Action</th>
                             </tr>
@@ -30,18 +29,20 @@
                         <tbody>
                             @forelse ($questions as $question)
                                 <tr>
-                                    <td>{{ $question->title }}</td>
+                                    <a href="">
+    
+                                        <td>{{ $question->title }}</td>
+                                    </a>
                                     <td>{{ Str::words($question->description, 20, '...') }}</td>
                                     <td>{{ $question->category->name }}</td>
-                                    <td>{{ $question->user->username }}</td>
                                     <td>{{ $question->created_at->diffForHumans() }}</td>
                                     <td>
                                         <a class="btn btn-block bg-gradient-info btn-sm mb-1"
                                             href="{{ route('user.questions.show', $question->id) }}">Show</a>
                                         <a class="btn btn-block bg-gradient-primary btn-sm mb-1"
-                                            href="{{ route('questions.edit', $question->id) }}">Edit</a>
+                                            href="{{ route('user.questions.edit', $question->id) }}">Edit</a>
 
-                                        <form action="{{ route('questions.destroy', $question->id) }}" method="post">
+                                        <form action="{{ route('user.questions.destroy', $question->id) }}" method="post">
                                             @csrf
                                             @method('DELETE')
                                             <input class="btn btn-block bg-gradient-danger btn-sm" type="submit"

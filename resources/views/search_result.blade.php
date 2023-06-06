@@ -38,14 +38,14 @@
                     <p class="card-text">{{ Str::words($question->title, 20, '...') }}</p>
                 </a>
                 <br>
-                <p><small>category : {{ $question->category->name }}</small></p>w
+                <p><small>category : {{ $question->category->name }}</small></p>
                 <a href="{{ route('answers.create',$question->id) }}" class="card-link">Reply</a>
             </div>
         </div>
     @empty
         <div class="card col-12">
             <div class="card-body">
-                <h5 class="card-title">There are no questions in this category.</h5>
+                <h5 class="card-title">No results found.</h5>
             </div>
         </div>
     @endforelse
